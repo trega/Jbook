@@ -17,7 +17,8 @@ public class MainWindow {
 
 	private JFrame frame;
 	private JLabel selectedLabel;
-	private Notebook defaultNotebook;;
+	private Notebook defaultNotebook;
+	private JEditorPane dtrpnEditorPane;
 
 	/**
 	 * Launch the application.
@@ -53,10 +54,10 @@ public class MainWindow {
 		
 		defaultNotebook = new Notebook("Default Notebook");
 		
-		NotebookTree notebooks_tree = new NotebookTree(defaultNotebook);
+		NotebookTree notebooks_tree = new NotebookTree(this, defaultNotebook);
 		frame.getContentPane().add(notebooks_tree, BorderLayout.WEST);
 		
-		JEditorPane dtrpnEditorPane = new JEditorPane();
+		dtrpnEditorPane = new JEditorPane();
 		dtrpnEditorPane.setText("Type here");
 		frame.getContentPane().add(dtrpnEditorPane, BorderLayout.CENTER);
 		
@@ -64,4 +65,9 @@ public class MainWindow {
 		frame.add(selectedLabel, BorderLayout.SOUTH);
 		
 	}
+	
+	JEditorPane getdtrpnEditorPane(){
+		return dtrpnEditorPane;
+	}
+	
 }

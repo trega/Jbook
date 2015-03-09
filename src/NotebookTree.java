@@ -11,6 +11,7 @@ import javax.swing.tree.TreeNode;
 public class NotebookTree extends JTree {
 	private static final long serialVersionUID = 1L;
 	private NotebookTree this_tree;
+	private MainWindow main_window;
 
 	public NotebookTree() {
 		super();
@@ -24,15 +25,15 @@ public class NotebookTree extends JTree {
 		initialize();
 		// TODO Auto-generated constructor stub
 	}
+	public NotebookTree(MainWindow mainWindow, TreeNode root){
+		super(root);
+		initialize();
+		fillDefaultContent();
+		main_window = mainWindow;
+	}
 
 	public NotebookTree(Vector<?> value) {
 		super(value);
-		// TODO Auto-generated constructor stub
-	}
-
-	public NotebookTree(Hashtable<?, ?> value) {
-		super(value);
-		initialize();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -40,12 +41,6 @@ public class NotebookTree extends JTree {
 		super(root);
 		initialize();
 		fillDefaultContent();
-	}
-
-	public NotebookTree(TreeModel newModel) {
-		super(newModel);
-		initialize();
-		// TODO Auto-generated constructor stub
 	}
 
 	public NotebookTree(TreeNode root, boolean asksAllowsChildren) {
@@ -89,7 +84,7 @@ public class NotebookTree extends JTree {
 		    //    Object nodeInfo = node.getUserObject();
 		        //...
 		    /* React to the node selection. */
-		        //...
+		        main_window.getdtrpnEditorPane().setText(node.getPath().toString());
 		    }
 		});
 	}
