@@ -1,24 +1,15 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JTree;
 
 import java.awt.BorderLayout;
-
-import javax.swing.JEditorPane;
-import javax.swing.JLabel;
-import javax.swing.JScrollBar;
-import javax.swing.UIManager;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-
+import java.io.IOException;
 
 public class MainWindow {
 
 	private JFrame frame;
-	private JLabel selectedLabel;
 	private Notebook defaultNotebook;
-	private JEditorPane dtrpnEditorPane;
+	private Note currentNote;
 
 	/**
 	 * Launch the application.
@@ -52,22 +43,21 @@ public class MainWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Jbook ver1.0");
 		
-		defaultNotebook = new Notebook("Default Notebook");
+		try {
+			defaultNotebook = new Notebook("Default Notebook");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		NotebookTree notebooks_tree = new NotebookTree(this, defaultNotebook);
-		frame.getContentPane().add(notebooks_tree, BorderLayout.WEST);
-		
-		dtrpnEditorPane = new JEditorPane();
-		dtrpnEditorPane.setText("Type here");
-		frame.getContentPane().add(dtrpnEditorPane, BorderLayout.CENTER);
-		
-		selectedLabel = new JLabel();
-		frame.add(selectedLabel, BorderLayout.SOUTH);
+		frame.getContentPane().add(notebooks_tree, BorderLayout.WEST);		
 		
 	}
-	
-	JEditorPane getdtrpnEditorPane(){
-		return dtrpnEditorPane;
+
+	void setCurrentNote(Note note){
+		currentNote=note;
+		frame.getContentPane().add(currentNote, BorderLayout.CENTER);	
 	}
 	
 }

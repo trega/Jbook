@@ -1,10 +1,9 @@
-import java.util.Hashtable;
+import java.io.IOException;
 import java.util.Vector;
 
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 
 
@@ -56,22 +55,27 @@ public class NotebookTree extends JTree {
 	
 	private void fillDefaultContent(){
 		Notebook root = (Notebook)getModel().getRoot();
-		Notebook javaNotebook = new Notebook("Java");
-		Notebook swingNotebook = new Notebook("Swing");
-		root.add(javaNotebook);
-		javaNotebook.add(swingNotebook);
-		Notebook otherNotebook = new Notebook("Other");
-		root.add(otherNotebook);
-		Notebook todoNotebook = new Notebook("TODO");
-		otherNotebook.add(todoNotebook);			
+		Notebook javaNotebook;
+		try {
+			javaNotebook = new Notebook("Java");
+			Notebook swingNotebook = new Notebook("Swing");
+			root.add(javaNotebook);
+			javaNotebook.add(swingNotebook);
+			Notebook otherNotebook = new Notebook("Other");
+			root.add(otherNotebook);
+			Notebook todoNotebook = new Notebook("TODO");
+			otherNotebook.add(todoNotebook);	
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 	
 	private void registerEventHandlers(){
 		registerTreeSelectionListener();
 	}
-	
-	
-	
+		
 	private void registerTreeSelectionListener(){		
 		this_tree.addTreeSelectionListener(new TreeSelectionListener() {
 		    public void valueChanged(TreeSelectionEvent e) {
@@ -84,7 +88,7 @@ public class NotebookTree extends JTree {
 		    //    Object nodeInfo = node.getUserObject();
 		        //...
 		    /* React to the node selection. */
-		        main_window.getdtrpnEditorPane().setText(node.getPath().toString());
+		        main_window.setCurrentNote(node.getNote());
 		    }
 		});
 	}
