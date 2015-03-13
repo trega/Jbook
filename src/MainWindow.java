@@ -8,8 +8,9 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
 import java.awt.BorderLayout;
-import java.beans.PropertyVetoException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainWindow {
 
@@ -17,6 +18,7 @@ public class MainWindow {
 	private Notebook defaultNotebook;
 	private Note currentNote;
 	private JLayeredPane desktop;
+	private Map<Note, SelfInternalFrame> opened_notes;
 
 	/**
 	 * Launch the application.
@@ -38,6 +40,7 @@ public class MainWindow {
 	 * Create the application.
 	 */
 	public MainWindow() {
+		opened_notes = new HashMap<Note, SelfInternalFrame>();
 		initialize();
 	}
 
@@ -69,24 +72,26 @@ public class MainWindow {
 	}
 
 	void setCurrentNote(Note note){
-		currentNote=note;
-		JInternalFrame new_note_frame = createLayer("Open 1");
-		new_note_frame.add(currentNote);
-		this.getDesktop().add(new_note_frame, JLayeredPane.POPUP_LAYER);
-		
+		currentNote = note;
+		if(opened_notes.containsKey(currentNote) == false){
+			SelfInternalFrame new_note_frame = createLayer("Open 1");
+			new_note_frame.setNote(currentNote);
+			opened_notes.put(currentNote, new_note_frame);
+			this.getDesktop().add(new_note_frame, JLayeredPane.POPUP_LAYER);
+		}
 	}
 
 	public JLayeredPane getDesktop() {
 		return desktop;
 	}
 	
-	public static JInternalFrame createLayer(String label) {
+	public static SelfInternalFrame createLayer(String label) {
 	    return new SelfInternalFrame(label);
 	}
 	
 	static class SelfInternalFrame extends JInternalFrame {
 		private static final long serialVersionUID = 1L;
-
+		private Note note;
 		public SelfInternalFrame(String s) {
 	     // getContentPane().add(new JLabel(s), BorderLayout.CENTER);
 	      setBounds(50, 50, 100, 100);
@@ -98,6 +103,13 @@ public class MainWindow {
 	      setTitle(s);
 	      setVisible(true);
 	    }
+		public Note getNote() {
+			return note;
+		}
+		public void setNote(Note note) {
+			this.note = note;
+			add(note);
+		}
 	 }
 	
 }

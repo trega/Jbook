@@ -88,7 +88,9 @@ public class NotebookTree extends JTree {
 		    //    Object nodeInfo = node.getUserObject();
 		        //...
 		    /* React to the node selection. */
-		        main_window.setCurrentNote(node.getNote());
+		        if(node.isLeaf()){
+		        	main_window.setCurrentNote(node.getNote());
+		        }
 		    }
 		});
 	}
