@@ -11,6 +11,7 @@ import javax.swing.event.InternalFrameListener;
 
 import java.awt.BorderLayout;
 import java.awt.event.WindowListener;
+import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,11 +81,17 @@ public class MainWindow {
 			SelfInternalFrame new_note_frame = createLayer("Open 1");
 			new_note_frame.setNote(currentNote);
 			opened_notes.put(currentNote, new_note_frame);
-			new_note_frame.addInternalFrameListener(new InternalFrameEventHandler(opened_notes, currentNote) );
+			
 			this.getDesktop().add(new_note_frame, JLayeredPane.POPUP_LAYER);
-		}else{
-			desktop.moveToFront(opened_notes.get(currentNote));
+			new_note_frame.addInternalFrameListener(new InternalFrameEventHandler(opened_notes, currentNote) );
+			try {
+				new_note_frame.setMaximum(true);
+			} catch (PropertyVetoException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		desktop.moveToFront(opened_notes.get(currentNote));
 	}
 
 	public JLayeredPane getDesktop() {
