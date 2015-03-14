@@ -7,6 +7,7 @@ import javax.swing.JEditorPane;
 public class Note extends JEditorPane {
 
 	private static final long serialVersionUID = 1L;
+	private String title;
 
 	public Note() {
 		// TODO Auto-generated constructor stub
@@ -24,7 +25,16 @@ public class Note extends JEditorPane {
 
 	public Note(String type, String text) {
 		super(type, text);
+		title=text;
 		// TODO Auto-generated constructor stub
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 }

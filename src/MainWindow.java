@@ -78,7 +78,7 @@ public class MainWindow {
 	void setCurrentNote(Note note){
 		currentNote = note;
 		if(opened_notes.containsKey(currentNote) == false){
-			SelfInternalFrame new_note_frame = createLayer("Open 1");
+			SelfInternalFrame new_note_frame = createLayer(note.getTitle());
 			new_note_frame.setNote(currentNote);
 			opened_notes.put(currentNote, new_note_frame);
 			
