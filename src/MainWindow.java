@@ -6,8 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 
 import java.awt.BorderLayout;
+import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,6 +80,7 @@ public class MainWindow {
 			SelfInternalFrame new_note_frame = createLayer("Open 1");
 			new_note_frame.setNote(currentNote);
 			opened_notes.put(currentNote, new_note_frame);
+			new_note_frame.addInternalFrameListener(new InternalFrameEventHandler(opened_notes, currentNote) );
 			this.getDesktop().add(new_note_frame, JLayeredPane.POPUP_LAYER);
 		}
 	}
@@ -89,7 +93,7 @@ public class MainWindow {
 	    return new SelfInternalFrame(label);
 	}
 	
-	static class SelfInternalFrame extends JInternalFrame {
+	static class SelfInternalFrame extends JInternalFrame{
 		private static final long serialVersionUID = 1L;
 		private Note note;
 		public SelfInternalFrame(String s) {
@@ -112,4 +116,56 @@ public class MainWindow {
 		}
 	 }
 	
+	static class InternalFrameEventHandler implements InternalFrameListener {
+		private Map<Note, SelfInternalFrame> opened_notes;
+		private Note note;
+		
+		public InternalFrameEventHandler( Map<Note, SelfInternalFrame> a_notes, Note a_note){
+			opened_notes = a_notes;
+			note = a_note;
+		}
+		
+		@Override
+		public void internalFrameActivated(InternalFrameEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void internalFrameClosed(InternalFrameEvent arg0) {
+			opened_notes.remove(note);
+			
+		}
+
+		@Override
+		public void internalFrameClosing(InternalFrameEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void internalFrameDeactivated(InternalFrameEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void internalFrameDeiconified(InternalFrameEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void internalFrameIconified(InternalFrameEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void internalFrameOpened(InternalFrameEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 }
