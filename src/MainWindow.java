@@ -82,6 +82,8 @@ public class MainWindow {
 			opened_notes.put(currentNote, new_note_frame);
 			new_note_frame.addInternalFrameListener(new InternalFrameEventHandler(opened_notes, currentNote) );
 			this.getDesktop().add(new_note_frame, JLayeredPane.POPUP_LAYER);
+		}else{
+			desktop.moveToFront(opened_notes.get(currentNote));
 		}
 	}
 
