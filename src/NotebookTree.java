@@ -1,16 +1,26 @@
+import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Vector;
 
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
+import javax.swing.event.MenuKeyEvent;
+import javax.swing.event.MenuKeyListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 
 public class NotebookTree extends JTree {
 	private static final long serialVersionUID = 1L;
 	private NotebookTree this_tree;
 	private MainWindow main_window;
+	private JPopupMenu popup_menu;
 
 	public NotebookTree() {
 		super();
@@ -45,6 +55,7 @@ public class NotebookTree extends JTree {
 	public NotebookTree(TreeNode root, boolean asksAllowsChildren) {
 		super(root, asksAllowsChildren);
 		initialize();
+		
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -74,6 +85,7 @@ public class NotebookTree extends JTree {
 	
 	private void registerEventHandlers(){
 		registerTreeSelectionListener();
+		registerMouseListener();
 	}
 		
 	private void registerTreeSelectionListener(){		
@@ -93,6 +105,58 @@ public class NotebookTree extends JTree {
 		        }
 		    }
 		});
+	}
+	
+	private void registerMouseListener(){
+		this_tree.addMouseListener ( new MouseAdapter ()
+	    {
+	        public void mousePressed ( MouseEvent e )
+	        {
+	            if ( SwingUtilities.isRightMouseButton ( e ) )
+	            {
+	                TreePath path = this_tree.getPathForLocation ( e.getX (), e.getY () );
+	                Rectangle pathBounds = this_tree.getUI ().getPathBounds ( this_tree, path );
+	                if ( pathBounds != null && pathBounds.contains ( e.getX (), e.getY () ) )
+	                {
+	                	popup_menu = new JPopupMenu();
+	                	JMenuItem mi1 = new JMenuItem ( path.toString());
+	                	MenuItemeEventHandler ehandle = new MenuItemeEventHandler(
+	                			(Notebook)path.getLastPathComponent());
+	                	mi1.addMenuKeyListener(ehandle);
+	                	popup_menu.add ( mi1);
+	                	popup_menu.show ( this_tree, pathBounds.x, pathBounds.y + pathBounds.height );
+	                }
+	            }
+	        }
+	    } );
+	}
+	
+	static class MenuItemeEventHandler implements MenuKeyListener{
+		private Notebook notebook;
+		
+		MenuItemeEventHandler(Notebook a_notebook){
+			notebook = a_notebook;
+		}
+		
+		@Override
+		public void menuKeyPressed(MenuKeyEvent arg0) {
+			try {
+				notebook.add(new Notebook("new"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		@Override
+		public void menuKeyReleased(MenuKeyEvent arg0) {
+			// TODO Auto-generated method stub			
+		}
+
+		@Override
+		public void menuKeyTyped(MenuKeyEvent arg0) {
+			// TODO Auto-generated method stub			
+		}
+		
 	}
 
 }
