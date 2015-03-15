@@ -1,4 +1,6 @@
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -12,6 +14,7 @@ import javax.swing.event.MenuKeyEvent;
 import javax.swing.event.MenuKeyListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
@@ -120,9 +123,9 @@ public class NotebookTree extends JTree {
 	                {
 	                	popup_menu = new JPopupMenu();
 	                	JMenuItem mi1 = new JMenuItem ( path.toString());
-	                	MenuItemeEventHandler ehandle = new MenuItemeEventHandler(
+	                	MenuItemeEventHandler ehandle = new MenuItemeEventHandler(this_tree,
 	                			(Notebook)path.getLastPathComponent());
-	                	mi1.addMenuKeyListener(ehandle);
+	                	mi1.addActionListener(ehandle);
 	                	popup_menu.add ( mi1);
 	                	popup_menu.show ( this_tree, pathBounds.x, pathBounds.y + pathBounds.height );
 	                }
@@ -131,31 +134,30 @@ public class NotebookTree extends JTree {
 	    } );
 	}
 	
-	static class MenuItemeEventHandler implements MenuKeyListener{
+	static class MenuItemeEventHandler implements ActionListener{
+		private NotebookTree parent_tree;
 		private Notebook notebook;
 		
-		MenuItemeEventHandler(Notebook a_notebook){
+		MenuItemeEventHandler(NotebookTree a_tree, Notebook a_notebook){
+			parent_tree = a_tree;
 			notebook = a_notebook;
 		}
-		
+
 		@Override
-		public void menuKeyPressed(MenuKeyEvent arg0) {
+		public void actionPerformed(ActionEvent arg0) {
 			try {
-				notebook.add(new Notebook("new"));
+				Notebook n = new Notebook("new"); 
+				notebook.add(n);
+				DefaultTreeModel a_model = (DefaultTreeModel)parent_tree.getModel();
+				a_model.reload();
+				
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 		}
-
-		@Override
-		public void menuKeyReleased(MenuKeyEvent arg0) {
-			// TODO Auto-generated method stub			
-		}
-
-		@Override
-		public void menuKeyTyped(MenuKeyEvent arg0) {
-			// TODO Auto-generated method stub			
-		}
+		
 		
 	}
 
