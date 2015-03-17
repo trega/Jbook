@@ -10,8 +10,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
-import javax.swing.event.MenuKeyEvent;
-import javax.swing.event.MenuKeyListener;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
+//import javax.swing.event.MenuKeyEvent;
+//import javax.swing.event.MenuKeyListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultTreeModel;
@@ -89,6 +91,7 @@ public class NotebookTree extends JTree {
 	private void registerEventHandlers(){
 		registerTreeSelectionListener();
 		registerMouseListener();
+		registerTreeModelListener();
 	}
 		
 	private void registerTreeSelectionListener(){		
@@ -122,7 +125,7 @@ public class NotebookTree extends JTree {
 	                if ( pathBounds != null && pathBounds.contains ( e.getX (), e.getY () ) )
 	                {
 	                	popup_menu = new JPopupMenu();
-	                	JMenuItem mi1 = new JMenuItem ( path.toString());
+	                	JMenuItem mi1 = new JMenuItem ( "Add");
 	                	MenuItemeEventHandler ehandle = new MenuItemeEventHandler(this_tree,
 	                			(Notebook)path.getLastPathComponent());
 	                	mi1.addActionListener(ehandle);
@@ -132,6 +135,10 @@ public class NotebookTree extends JTree {
 	            }
 	        }
 	    } );
+	}
+	
+	private void registerTreeModelListener(){
+		this.getModel().addTreeModelListener(new TreeModelEventHandler());
 	}
 	
 	static class MenuItemeEventHandler implements ActionListener{
@@ -148,6 +155,7 @@ public class NotebookTree extends JTree {
 			try {
 				Notebook n = new Notebook("new"); 
 				notebook.add(n);
+				parent_tree.setEditable(true);
 				DefaultTreeModel a_model = (DefaultTreeModel)parent_tree.getModel();
 				a_model.reload();
 				
@@ -157,7 +165,34 @@ public class NotebookTree extends JTree {
 			}
 			
 		}
-		
+	}
+	
+	static class TreeModelEventHandler implements TreeModelListener{
+		@Override
+		public void treeNodesChanged(TreeModelEvent arg0) {
+			TreePath path = arg0.getTreePath();
+			Notebook n = (Notebook)path.getLastPathComponent();
+			Notebook renamed = (Notebook)n.getLastLeaf();
+			renamed.getNote().setTitle((String)renamed.getUserObject());
+		}
+
+		@Override
+		public void treeNodesInserted(TreeModelEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void treeNodesRemoved(TreeModelEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void treeStructureChanged(TreeModelEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 	}
 
