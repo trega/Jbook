@@ -15,6 +15,7 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class MainWindow {
 
@@ -96,6 +97,11 @@ public class MainWindow {
 
 	public JLayeredPane getDesktop() {
 		return desktop;
+	}
+	
+	public void noteHasChanged(Note n){
+		SelfInternalFrame frame = this.opened_notes.get(n);
+		frame.setTitle(n.getTitle());
 	}
 	
 	public static SelfInternalFrame createLayer(String label) {

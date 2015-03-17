@@ -41,9 +41,9 @@ public class NotebookTree extends JTree {
 	}
 	public NotebookTree(MainWindow mainWindow, TreeNode root){
 		super(root);
+		main_window = mainWindow;
 		initialize();
 		fillDefaultContent();
-		main_window = mainWindow;
 	}
 
 	public NotebookTree(Vector<?> value) {
@@ -138,7 +138,7 @@ public class NotebookTree extends JTree {
 	}
 	
 	private void registerTreeModelListener(){
-		this.getModel().addTreeModelListener(new TreeModelEventHandler());
+		this.getModel().addTreeModelListener(new TreeModelEventHandler(main_window));
 	}
 	
 	static class MenuItemeEventHandler implements ActionListener{
@@ -168,12 +168,17 @@ public class NotebookTree extends JTree {
 	}
 	
 	static class TreeModelEventHandler implements TreeModelListener{
+		MainWindow mainWindow;
+		TreeModelEventHandler(MainWindow window){
+			mainWindow = window;
+		}
 		@Override
 		public void treeNodesChanged(TreeModelEvent arg0) {
 			TreePath path = arg0.getTreePath();
 			Notebook n = (Notebook)path.getLastPathComponent();
 			Notebook renamed = (Notebook)n.getLastLeaf();
 			renamed.getNote().setTitle((String)renamed.getUserObject());
+			mainWindow.noteHasChanged(renamed.getNote());
 		}
 
 		@Override
