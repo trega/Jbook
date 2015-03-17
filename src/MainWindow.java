@@ -4,18 +4,15 @@ import java.awt.EventQueue;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 import java.awt.BorderLayout;
-import java.awt.event.WindowListener;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class MainWindow {
 
