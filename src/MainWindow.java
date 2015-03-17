@@ -104,6 +104,13 @@ public class MainWindow {
 		frame.setTitle(n.getTitle());
 	}
 	
+	public void noteHasBeenRemoved(Note n){
+		SelfInternalFrame frame = (SelfInternalFrame)opened_notes.get(n);
+		getDesktop().remove(frame);
+		opened_notes.remove(n);
+		desktop.repaint();
+	}
+	
 	public static SelfInternalFrame createLayer(String label) {
 	    return new SelfInternalFrame(label);
 	}

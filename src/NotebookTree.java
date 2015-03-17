@@ -113,6 +113,10 @@ public class NotebookTree extends JTree {
 		});
 	}
 	
+	private void removeNode(Note n){
+		main_window.noteHasBeenRemoved(n);
+	}
+	
 	private void registerMouseListener(){
 		this_tree.addMouseListener ( new MouseAdapter ()
 	    {
@@ -125,9 +129,17 @@ public class NotebookTree extends JTree {
 	                if ( pathBounds != null && pathBounds.contains ( e.getX (), e.getY () ) )
 	                {
 	                	popup_menu = new JPopupMenu();
-	                	JMenuItem mi1 = new JMenuItem ( "Add");
+	                	JMenuItem mi1 = new JMenuItem ( "Add new");
 	                	MenuItemeEventHandler ehandle = new MenuItemeEventHandler(this_tree,
-	                			(Notebook)path.getLastPathComponent());
+	                			(Notebook)path.getLastPathComponent(),
+	                			MenuItemeEventHandler.Action_Type.ADD_NEW_ITEM);
+	                	mi1.addActionListener(ehandle);
+	                	popup_menu.add ( mi1);
+	                	
+	                	mi1 = new JMenuItem ( "Remove");
+	                	ehandle = new MenuItemeEventHandler(this_tree,
+	                			(Notebook)path.getLastPathComponent(),
+	                			MenuItemeEventHandler.Action_Type.REMOVE_ITEM);
 	                	mi1.addActionListener(ehandle);
 	                	popup_menu.add ( mi1);
 	                	popup_menu.show ( this_tree, pathBounds.x, pathBounds.y + pathBounds.height );
@@ -144,14 +156,28 @@ public class NotebookTree extends JTree {
 	static class MenuItemeEventHandler implements ActionListener{
 		private NotebookTree parent_tree;
 		private Notebook notebook;
+		private Action_Type action;
+		public enum Action_Type {
+		    ADD_NEW_ITEM, REMOVE_ITEM 
+		}
 		
-		MenuItemeEventHandler(NotebookTree a_tree, Notebook a_notebook){
+		MenuItemeEventHandler(NotebookTree a_tree, Notebook a_notebook, Action_Type a){
 			parent_tree = a_tree;
 			notebook = a_notebook;
+			action = a;
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			if(action == Action_Type.ADD_NEW_ITEM){
+				addNewItemAction(arg0);
+			}
+			if(action == Action_Type.REMOVE_ITEM){
+				removeItemAction(arg0);
+			}
+		}
+		
+		private void addNewItemAction(ActionEvent arg0){
 			try {
 				Notebook n = new Notebook("new"); 
 				notebook.add(n);
@@ -163,8 +189,14 @@ public class NotebookTree extends JTree {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 		}
+		
+		private void removeItemAction(ActionEvent arg0){
+			DefaultTreeModel a_model = (DefaultTreeModel)parent_tree.getModel();
+			a_model.removeNodeFromParent(notebook);
+			parent_tree.removeNode(notebook.getNote());
+		}
+		
 	}
 	
 	static class TreeModelEventHandler implements TreeModelListener{
