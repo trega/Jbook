@@ -22,7 +22,7 @@ import javax.swing.tree.TreePath;
 
 
 public class NotebookTree extends JTree {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3035135700751916382L;
 	private NotebookTree this_tree;
 	private MainWindow main_window;
 	private JPopupMenu popup_menu;

@@ -9,6 +9,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 import java.awt.BorderLayout;
+import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,7 +22,8 @@ public class MainWindow {
 	private Note currentNote;
 	private JLayeredPane desktop;
 	private Map<Note, SelfInternalFrame> opened_notes;
-
+	private NotebookTree notebooks_tree;
+	private MenuBar main_menu;
 	/**
 	 * Launch the application.
 	 */
@@ -55,6 +57,9 @@ public class MainWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Jbook ver1.0");
 		
+		main_menu = new MenuBar();
+		frame.add(main_menu, BorderLayout.NORTH);
+		
 		desktop = new JLayeredPane();
 		desktop.setOpaque(false);
 		//desktop.add(createLayer("Open 1"), JLayeredPane.POPUP_LAYER);
@@ -68,9 +73,14 @@ public class MainWindow {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		NotebookTree notebooks_tree = new NotebookTree(this, defaultNotebook);
+		notebooks_tree = new NotebookTree(this, defaultNotebook);
 		frame.getContentPane().add(notebooks_tree, BorderLayout.WEST);		
 		
+	}
+	
+	public void windowClosing(WindowEvent e){
+		Serializer out = new Serializer("default.out");
+		out.serializeTree(notebooks_tree);
 	}
 
 	void setCurrentNote(Note note){

@@ -3,7 +3,7 @@ import java.io.IOException;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class Notebook extends DefaultMutableTreeNode{
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 167415613186037229L;
 	private Note note;
 	
 	public Notebook(String nodeName) throws IOException{

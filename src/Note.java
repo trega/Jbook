@@ -4,9 +4,9 @@ import java.net.URL;
 import javax.swing.JEditorPane;
 
 
-public class Note extends JEditorPane {
+public class Note extends JEditorPane implements java.io.Serializable{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 430310972298382568L;
 	private String title;
 
 	public Note() {
