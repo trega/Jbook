@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Vector;
 
 import javax.swing.JMenuItem;
@@ -21,17 +22,16 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 
-public class NotebookTree extends JTree {
+public class NotebookTree extends JTree implements Serializable{
 	private static final long serialVersionUID = 3035135700751916382L;
-	private NotebookTree this_tree;
-	private MainWindow main_window;
-	private JPopupMenu popup_menu;
+	private transient NotebookTree this_tree;
+	private transient MainWindow main_window;
+	private transient JPopupMenu popup_menu;
 
 	public NotebookTree() {
 		super();
 		initialize();
-		fillDefaultContent();
-		
+		fillDefaultContent();		
 	}
 
 	public NotebookTree(Object[] value) {

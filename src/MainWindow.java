@@ -9,7 +9,6 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 import java.awt.BorderLayout;
-import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -57,7 +56,7 @@ public class MainWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Jbook ver1.0");
 		
-		main_menu = new MenuBar();
+		main_menu = new MenuBar(this);
 		frame.add(main_menu, BorderLayout.NORTH);
 		
 		desktop = new JLayeredPane();
@@ -78,7 +77,7 @@ public class MainWindow {
 		
 	}
 	
-	public void windowClosing(WindowEvent e){
+	public void saveFiles(){
 		Serializer out = new Serializer("default.out");
 		out.serializeTree(notebooks_tree);
 	}

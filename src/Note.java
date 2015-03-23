@@ -1,10 +1,11 @@
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 
 import javax.swing.JEditorPane;
 
 
-public class Note extends JEditorPane implements java.io.Serializable{
+public class Note extends JEditorPane implements Serializable{
 
 	private static final long serialVersionUID = 430310972298382568L;
 	private String title;
