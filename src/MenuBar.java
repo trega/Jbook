@@ -63,7 +63,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 	}
 	
 	private void serviceLoadRequest(){
-		
+		main_window.LoadNotebookTree();
 	}
 
 }

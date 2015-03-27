@@ -81,6 +81,14 @@ public class MainWindow {
 		Serializer out = new Serializer("default.out");
 		out.serializeTree(notebooks_tree);
 	}
+	
+	public void LoadNotebookTree(){
+		Serializer ser = new Serializer("default.out");
+		frame.getContentPane().remove(notebooks_tree);
+		notebooks_tree = ser.deserializeTree();
+		notebooks_tree.postDeserialization(this);
+		frame.getContentPane().add(notebooks_tree, BorderLayout.WEST);	
+	}
 
 	void setCurrentNote(Note note){
 		currentNote = note;

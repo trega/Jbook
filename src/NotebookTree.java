@@ -60,8 +60,13 @@ public class NotebookTree extends JTree implements Serializable{
 	public NotebookTree(TreeNode root, boolean asksAllowsChildren) {
 		super(root, asksAllowsChildren);
 		initialize();
+	}
+	
+	public void postDeserialization(MainWindow main_window){
+		this.main_window = main_window;
+		this_tree = this;
+		registerMouseListener();
 		
-		// TODO Auto-generated constructor stub
 	}
 	
 	private void initialize(){
