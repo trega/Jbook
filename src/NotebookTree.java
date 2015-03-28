@@ -65,7 +65,7 @@ public class NotebookTree extends JTree implements Serializable{
 	public void postDeserialization(MainWindow main_window){
 		this.main_window = main_window;
 		this_tree = this;
-		registerMouseListener();
+		registerEventHandlers();
 		
 	}
 	
