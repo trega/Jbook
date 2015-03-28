@@ -84,6 +84,7 @@ public class MainWindow {
 	
 	public void LoadNotebookTree(){
 		Serializer ser = new Serializer("default.out");
+		notebooks_tree.setVisible(false);
 		frame.getContentPane().remove(notebooks_tree);
 		notebooks_tree = ser.deserializeTree();
 		notebooks_tree.postDeserialization(this);
