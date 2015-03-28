@@ -56,6 +56,8 @@ public class MainWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Jbook ver1.0");
 		
+		verifyLogin();
+		
 		main_menu = new MenuBar(this);
 		frame.add(main_menu, BorderLayout.NORTH);
 		
@@ -77,6 +79,12 @@ public class MainWindow {
 		
 	}
 	
+	private boolean verifyLogin() {
+		LoginDialog login_dlg = new LoginDialog(this);
+		login_dlg.setVisible(true);
+		return false;
+	}
+
 	public void saveFiles(){
 		Serializer out = new Serializer("default.out");
 		out.serializeTree(notebooks_tree);
@@ -112,6 +120,9 @@ public class MainWindow {
 
 	public JLayeredPane getDesktop() {
 		return desktop;
+	}
+	public JFrame getFrame(){
+		return frame;
 	}
 	
 	public void noteHasChanged(Note n){
