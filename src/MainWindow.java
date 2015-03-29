@@ -99,7 +99,7 @@ public class MainWindow {
 	}
 
 	public void saveFiles(){
-		Serializer out = new Serializer("default.out");
+		Serializer out = new Serializer(current_user.getUsername()+"_notes.out");
 		out.serializeTree(notebooks_tree);
 	}
 	
@@ -119,7 +119,7 @@ public class MainWindow {
 	}
 	
 	public void LoadNotebookTree(){
-		Serializer ser = new Serializer("default.out");
+		Serializer ser = new Serializer(current_user.getUsername()+"_notes.out");
 		notebooks_tree.setVisible(false);
 		frame.getContentPane().remove(notebooks_tree);
 		notebooks_tree = ser.deserializeTree();
