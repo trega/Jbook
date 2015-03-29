@@ -26,6 +26,7 @@ public class MainWindow {
 	private NotebookTree notebooks_tree;
 	private MenuBar main_menu;
 	private Users users;
+	private User current_user = null;
 	/**
 	 * Launch the application.
 	 */
@@ -60,7 +61,7 @@ public class MainWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Jbook ver1.0");
 		
-		verifyLogin();
+		showLoginDialog();
 		
 		main_menu = new MenuBar(this);
 		frame.add(main_menu, BorderLayout.NORTH);
@@ -83,10 +84,18 @@ public class MainWindow {
 		
 	}
 	
-	private boolean verifyLogin() {
+	private void showLoginDialog() {
 		LoginDialog login_dlg = new LoginDialog(this);
 		login_dlg.setVisible(true);
-		return false;
+	}
+	
+	public boolean verifyLogin(String login, String pass){
+		if(users.verifyLogin(login, pass)){
+			current_user = new User(login, pass);
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	public void saveFiles(){
@@ -144,6 +153,10 @@ public class MainWindow {
 		return frame;
 	}
 	
+	public Users getUsers() {
+		return users;
+	}
+
 	public void noteHasChanged(Note n){
 		SelfInternalFrame frame = this.opened_notes.get(n);
 		frame.setTitle(n.getTitle());

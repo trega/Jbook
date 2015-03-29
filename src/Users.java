@@ -29,6 +29,16 @@ public class Users implements Serializable{
 		}
 	}
 	
+	public boolean verifyLogin(String login, String pass){
+		if(registered_users.containsKey(login) == false){
+			return false;
+		}else if (registered_users.get(login).equals(pass)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 	private void serializeUsers(){
 		try {
 			FileOutputStream fileOut = new FileOutputStream(users_filename);
