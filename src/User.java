@@ -1,8 +1,15 @@
+import java.io.Serializable;
 
-public class User {
+
+public class User implements Serializable{
+	private static final long serialVersionUID = 2261492720508763943L;
 	private String username;
 	private String password;
 	
+	User(String login, String pass){
+		setUsername(login);
+		setPassword(pass);
+	}
 	
 	public String getUsername() {
 		return username;

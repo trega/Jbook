@@ -47,6 +47,12 @@ public class MenuBar extends JMenuBar implements ActionListener {
 				"This doesn't really do anything");
 		menuItem.addActionListener(this);
 		menu.add(menuItem);
+		menu.addSeparator();
+		menuItem = new JMenuItem("New user", KeyEvent.VK_T);
+		menuItem.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_3, ActionEvent.ALT_MASK));
+		menuItem.addActionListener(this);
+		menu.add(menuItem);
 	}
 	
 	@Override
@@ -55,9 +61,15 @@ public class MenuBar extends JMenuBar implements ActionListener {
 			serviceSaveRequest();
 		}else if(arg0.getActionCommand() == "Load"){
 			serviceLoadRequest();
+		}else if(arg0.getActionCommand() == "New user"){
+			serviceNewUserRequest();
 		}
 	}
 	
+	private void serviceNewUserRequest() {
+		main_window.addNewUser();
+		
+	}
 	private void serviceSaveRequest(){
 		main_window.saveFiles();
 	}

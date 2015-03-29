@@ -2,9 +2,11 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.BorderFactory;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
@@ -23,6 +25,7 @@ public class MainWindow {
 	private Map<Note, SelfInternalFrame> opened_notes;
 	private NotebookTree notebooks_tree;
 	private MenuBar main_menu;
+	private Users users;
 	/**
 	 * Launch the application.
 	 */
@@ -44,6 +47,7 @@ public class MainWindow {
 	 */
 	public MainWindow() {
 		opened_notes = new HashMap<Note, SelfInternalFrame>();
+		users = new Users();
 		initialize();
 	}
 
@@ -88,6 +92,21 @@ public class MainWindow {
 	public void saveFiles(){
 		Serializer out = new Serializer("default.out");
 		out.serializeTree(notebooks_tree);
+	}
+	
+	public void addNewUser() {
+		NewUserDialog dialog = new NewUserDialog(this);
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		dialog.setVisible(true);
+	}
+	
+	public void registerUser(User user) {
+		if(users.addUser(user)){
+			JOptionPane.showMessageDialog(frame, "User added successfully","Add new User",JOptionPane.INFORMATION_MESSAGE);
+		}else{
+			JOptionPane.showMessageDialog(frame, "User already exists","Add new User",JOptionPane.ERROR_MESSAGE);
+		}
+		
 	}
 	
 	public void LoadNotebookTree(){
